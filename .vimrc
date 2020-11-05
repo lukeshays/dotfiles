@@ -4,6 +4,11 @@ set ruler " show the cursor position all the time
 set showcmd	" display incomplete commands
 syntax on " Turn on syntax highlighting
 
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 inoremap ii <Esc>
 vnoremap ii <Esc> 
 inoremap <expr> <Tab> search('\%#[]>)}"]', 'n') ? '<Right>' : '<Tab>' "Tab to exit quotes/brackets
@@ -34,9 +39,10 @@ set hlsearch " Highlight all matched patterns when searching
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'mattn/emmet-vim'
-
 
 call plug#end()
 
