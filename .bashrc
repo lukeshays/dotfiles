@@ -7,13 +7,20 @@ export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T] "
 export HISTFILE=~/.bash_eternal_history
 export HISTCONTROL=ignoreboth:erasedups
-# Force prompt to write history after every command.
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND" # Force prompt to write history after every command.
 
-# If ~/.inputrc doesn't exist yet: First include the original /etc/inputrc
-# so it won't get overriden
-if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
-# Add shell-option to ~/.inputrc to enable case-insensitive tab completion
-echo 'set completion-ignore-case On' >> ~/.inputrc
+bind "set show-all-if-ambiguous on"
+bind "set completion-display-width 1"        # Displays completion list in a vertical line
+bind "set menu-complete-display-prefix on"   # Partial completion on first tab, cycle results on second tab
+bind "TAB: menu-complete"
+bind '"\e[Z": menu-complete-backward'
+bind "set completion-ignore-case on"
 
-alias ll='ls -l'
+alias ll='ls -la'
+alias grep='grep --color=auto -i'
+h(){
+    history | grep -i "$1";
+}
+
+# Optional for terminals not supporting true colors (for vim solarized colorscheme)
+sh ~/.vim/colors/solarized.sh
